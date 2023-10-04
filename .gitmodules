@@ -1,0 +1,3 @@
+[submodule "microrv32"]
+	path = microrv32
+	url = git@gitlab.informatik.uni-bremen.de:processor_verification/microrv32.git
