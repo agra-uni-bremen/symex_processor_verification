@@ -19,9 +19,12 @@ runTest: obj_dir/Vconfig.cmake
 	mkdir build
 	cd build && cmake ../ -DBUILD=runTest && make
 	cp RiscV32Core.v_toplevel_regs_regFile.bin build/RiscV32Core.v_toplevel_regs_regFile.bin
+	
+codestyle:
+	find . -type d \( -name .git -o -name dependencies \) -prune -o -name '*.h' -o -name '*.hpp' -o -name '*.cpp' -print | xargs clang-format -i -style=file
 
 clean:
 	rm -rf obj_dir
 	rm -rf build
 	
-.PHONY: klee-exit-on-assert bytecode clean runTest
+.PHONY: klee-exit-on-assert bytecode clean runTest codestyle
