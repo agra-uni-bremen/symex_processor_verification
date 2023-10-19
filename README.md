@@ -50,6 +50,12 @@ Further details are described in the folliwng publication: [publication][symex-v
   }
 ```
 
+## Acknowledgements
+This work was supported in part by the German Federal
+Ministry of Education and Research (BMBF) within the project Scale4Edge
+under contract no. 16ME0127, within the project VerSys under contract no.
+01IW1900, and within the project ECXL no. 01IW22002.
+
 [klee github]: https://github.com/klee/klee	
 [riscv-vp github]: https://github.com/agra-uni-bremen/riscv-vp
 [microrv32 github]: https://github.com/agra-uni-bremen/microrv32
