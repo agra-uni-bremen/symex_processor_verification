@@ -22,7 +22,7 @@ RUN apt-get install sbt -y
 #RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B84B2DF73499E82A75642AC823
 #RUN apt-get update
 #RUN apt-get install sbt
-RUN apt-get install git make autoconf flex bison less nano libboost-all-dev -y
+RUN apt-get install git make autoconf flex bison less nano libboost-all-dev clang-tidy -y
 ENV PATH="$PATH:/tmp/llvm-110-install_O_D_A/bin"
 #ENV BASE=/tmp
 #RUN update-alternatives --install /usr/bin/c++ c++ $(command -v clang++) 1000
