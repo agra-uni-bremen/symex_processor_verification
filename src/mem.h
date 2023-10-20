@@ -7,11 +7,13 @@
 #include <ctime>
 
 #include "instr_encoding.h"
-
+#ifdef ENABLE_KLEE
 #include "klee_conf.h"
+#endif
 
 #define STR(x) #x
 #define MY_ASSERT(x) if (!(x)) { fprintf(stderr,"My custom assertion failed: (%s), function %s, file %s, line %d.\n", STR(x), __PRETTY_FUNCTION__, __FILE__, __LINE__); abort(); }
+
 
 namespace rv32 {
 
@@ -34,10 +36,11 @@ struct InstructionMemoryXX  : public instr_memory_if
 		{
 			//uint32_t instruction = rand();
 			uint32_t instruction;
+#ifdef ENABLE_KLEE
 			klee_make_symbolic(&instruction, sizeof(instruction), "instruction");
 			
 			//klee_assume((instruction & (LW_MASK)) != (LW_ENCODING)); 
-			
+#endif
 			instruction_map[pc] = instruction;
 		}
 

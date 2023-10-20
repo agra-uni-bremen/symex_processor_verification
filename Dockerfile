@@ -17,6 +17,13 @@ RUN curl -sL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x2EE0EA64E4
 RUN chmod 644 /etc/apt/trusted.gpg.d/scalasbt-release.gpg
 RUN apt-get update
 RUN apt-get install sbt -y
+ADD https://github.com/Kitware/CMake/releases/download/v3.27.7/cmake-3.27.7-Linux-x86_64.sh /tmp/cmake-install.sh
+RUN chmod u+x /tmp/cmake-install.sh 
+RUN mkdir /opt/cmake-3.27.7 
+RUN /tmp/cmake-install.sh --skip-license --prefix=/opt/cmake-3.27.7 
+RUN rm /tmp/cmake-install.sh 
+RUN ln -s /opt/cmake-3.27.7/bin/* /usr/local/bin
+RUN apt-get update
 
 #RUN echo "deb https://dl.bintray.com/sbt/debian /" | tee -a /etc/apt/sources.list.d/sbt.list
 #RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B84B2DF73499E82A75642AC823
@@ -40,6 +47,7 @@ RUN ./configure
 RUN make -j8
 USER root
 RUN make install
+COPY src/ignore.clang-tidy /usr/local/share/verilator/include/.clang-tidy
 #ADD verilated.mk /usr/local/share/verilator/include/verilated.mk
 
 #ENV LLVM_COMPILER="clang"

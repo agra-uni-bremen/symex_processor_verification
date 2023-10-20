@@ -1,0 +1,6 @@
+# WarningsAsErrors: "*"
+# HeaderFilterRegex: ''
+
+Checks: '-*,misc-definitions-in-headers'
+CheckOptions:
+  - { key: HeaderFileExtensions,          value: "x" }
