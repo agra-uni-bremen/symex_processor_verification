@@ -982,7 +982,10 @@ Opcode::Mapping expand_compressed(Instruction &instr, Compressed::Opcode op,
   case C_JALR:
     instr = InstructionFactory::JALR(1, instr.c_rd(), 0);
     return JALR;
+  default:
+    break;
   }
+
 
   throw std::runtime_error("some compressed instruction not handled");
 }
@@ -1019,9 +1022,9 @@ bool is_supported(Compressed::Opcode op) {
   case C_SWSP:
   case C_LWSP:
     return true;
+  default:
+    return false;
   }
-
-  return false;
 }
 
 Opcode::Mapping Instruction::decode_and_expand_compressed(Architecture arch) {

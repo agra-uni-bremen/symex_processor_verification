@@ -1,4 +1,5 @@
 #include "iss.h"
+#include <limits>
 
 using namespace rv32;
 
@@ -799,6 +800,10 @@ uint32_t ISS::m_get_csr_value(uint32_t addr) {
   }
 
   RAISE_ILLEGAL_INSTRUCTION();
+
+  // Should not be reached.
+  // returns maximum value, because return 0 is already used
+  return std::numeric_limits<uint32_t>::max(); 
 }
 
 void ISS::m_set_csr_value(uint32_t addr, uint32_t value) {
@@ -1323,7 +1328,7 @@ void ISS::switch_to_trap_handler(PrivilegeLevel target_mode) {
   }
 }
 
-void ISS::performance_and_sync_update(Opcode::Mapping executed_op) {
+void ISS::performance_and_sync_update() {
   ++total_num_instr;
 
   if (!csrs.mcountinhibit.IR)
@@ -1361,7 +1366,7 @@ void ISS::run_step() {
   // before every register write)
   regs.regs[regs.zero] = 0;
 
-  performance_and_sync_update(op);
+  performance_and_sync_update();
 }
 
 void ISS::run() {

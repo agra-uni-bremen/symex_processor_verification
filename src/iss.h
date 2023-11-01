@@ -218,7 +218,7 @@ struct ISS : public external_interrupt_target, public clint_interrupt_target {
 
 	void switch_to_trap_handler(PrivilegeLevel target_mode);
 
-	void performance_and_sync_update(Opcode::Mapping executed_op);
+	void performance_and_sync_update();
 
 	void run_step();
 

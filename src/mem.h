@@ -35,7 +35,7 @@ struct InstructionMemoryXX  : public instr_memory_if
 		if(instruction_map.count(pc) == 0)
 		{
 			//uint32_t instruction = rand();
-			uint32_t instruction;
+			uint32_t instruction = 0;
 #ifdef ENABLE_KLEE
 			klee_make_symbolic(&instruction, sizeof(instruction), "instruction");
 			

@@ -121,7 +121,9 @@ int main(int argc, char **argv, char **env) {
 
   vluint64_t load_time = 0;
   vluint64_t store_time = 0;
+#ifdef TRACE  
   vluint64_t unknown_time = 0;
+#endif
 
   vluint64_t default_dbus = 0;
 
@@ -130,8 +132,6 @@ int main(int argc, char **argv, char **env) {
   bool first_fetch = false;
 
   struct CPUValues values;
-
-  uint32_t dReg = 0;
 
   uint32_t ready_count = 0;
 
@@ -145,8 +145,6 @@ int main(int argc, char **argv, char **env) {
     main_time++;
 
     top->clk = !top->clk;
-
-    bool known_case = false;
 
     getValues(values, top);
 
@@ -221,15 +219,12 @@ int main(int argc, char **argv, char **env) {
 
     if (!top->io_memIF_DMem_enable && top->io_memIF_DMem_wrStrobe == 15 &&
         !top->io_memIF_DMem_readWrite) {
-      known_case = true;
       init = true;
       default_dbus++;
     }
 
     if (top->io_memIF_DMem_enable && top->io_memIF_DMem_wrStrobe &&
         top->io_memIF_DMem_readWrite) {
-
-      known_case = true;
 
       rtl_mem.store_strobe(top->io_memIF_DMem_wrStrobe,
                            top->io_memIF_DMem_address,
@@ -241,7 +236,6 @@ int main(int argc, char **argv, char **env) {
 
     if (top->io_memIF_DMem_enable && top->io_memIF_DMem_wrStrobe &&
         !top->io_memIF_DMem_readWrite) {
-      known_case = true;
       top->io_memIF_DMem_readData = rtl_mem.load_strobe(
           top->io_memIF_DMem_wrStrobe, top->io_memIF_DMem_address);
       top->io_memIF_DMem_dataReady = true;
@@ -250,7 +244,6 @@ int main(int argc, char **argv, char **env) {
     }
 
     if (top->io_memIF_IMem_fetchEnable) {
-      known_case = true;
       first_fetch = true;
       fetch_time++;
 
@@ -259,43 +252,6 @@ int main(int argc, char **argv, char **env) {
       top->io_memIF_IMem_instructionReady = true;
     }
 
-    if (false && !known_case && init) {
-
-      std::cout << "===" << std::endl;
-      std::cout << "Unknown!" << std::endl;
-      std::cout << "IMem_fetchEnable: " << (int)top->io_memIF_IMem_fetchEnable
-                << std::endl;
-      std::cout << "IMem_address: " << (int)top->io_memIF_IMem_address
-                << std::endl;
-      std::cout << "DMem_enable: " << (int)top->io_memIF_DMem_enable
-                << std::endl;
-      std::cout << "DMem_address: " << (int)top->io_memIF_DMem_address
-                << std::endl;
-
-      std::cout << "DMem_writeData: " << (int)top->io_memIF_DMem_writeData
-                << std::endl;
-      std::cout << "DMem_wrStrobe: " << (int)top->io_memIF_DMem_wrStrobe
-                << std::endl;
-      std::cout << "DMem_readWrite: " << (int)top->io_memIF_DMem_readWrite
-                << std::endl;
-
-      std::cout << "io_halted: " << (int)top->io_halted << std::endl;
-      std::cout << "io_fetchSync: " << (int)top->io_fetchSync << std::endl;
-      std::cout << "io_dbgState: " << (int)top->io_dbgState << std::endl;
-
-      std::cout << "===" << std::endl;
-
-      unknown_time++;
-
-      std::cout << "eval: " << main_time << std::endl;
-      std::cout << "fetch: " << fetch_time << std::endl;
-      std::cout << "load: " << load_time << std::endl;
-      std::cout << "store: " << store_time << std::endl;
-      std::cout << "default_dbus: " << default_dbus << std::endl;
-      std::cout << "unknown: " << unknown_time << std::endl;
-
-      exit(-1);
-    }
 
     if (main_time > 1000 || executed_instructions >= 1) {
     theEND:
