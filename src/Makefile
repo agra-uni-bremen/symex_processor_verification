@@ -1,8 +1,11 @@
-klee-exit-on-assert: bytecode
+klee-exit-on-assert: byte_code_main
 	cp RiscV32Core.v_toplevel_regs_regFile.bin build/RiscV32Core.v_toplevel_regs_regFile.bin
 	date '+%s'
-	klee --optimize --posix-runtime --libc=uclibc --libcxx -exit-on-error-type=Assert ./build/main
+	klee --optimize --posix-runtime --libc=uclibc --libcxx -exit-on-error-type=Assert ./byte_code_main
 	date '+%s'
+	
+byte_code_main: bytecode
+	cp ./build/main byte_code_main
 	
 bytecode: obj_dir/Vconfig.cmake
 	rm -rf build
