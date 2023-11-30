@@ -30,6 +30,7 @@ elseif(BUILD STREQUAL "runTest")
     set(CMAKE_C_COMPILER "clang")
     set(SystemC_LIBRARIES ${SystemC_CXX_LIBRARIES})
     SET(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} -Wl")	# for klee_int() and konsorten
+    add_compile_definitions(ENABLE_KLEE)
 elseif(BUILD STREQUAL "clang-tidy")
     enable_language(CXX)
     MESSAGE("Building with clang-tidy ")
